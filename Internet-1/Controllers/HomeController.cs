@@ -18,6 +18,17 @@ namespace Internet_1.Controllers
             return View();
         }
 
+
+        public IActionResult TestWithLayout()
+        {
+            return View();
+        }
+
+        public IActionResult TestWithOutLayout()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
