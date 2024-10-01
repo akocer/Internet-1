@@ -23,7 +23,7 @@ namespace Internet_1.Repositories
         public void Add(Product model)
         {
             Random rn = new Random();
-            int id = rn.Next();
+            int id = rn.Next(1000);
             model.Id = id;
             products.Add(model);
         }

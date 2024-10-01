@@ -22,9 +22,32 @@ namespace Internet_1.Controllers
         {
             return View();
         }
-        public IActionResult Update()
+
+        [HttpPost]
+        public IActionResult Add(Product model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            _productRepository.Add(model);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Update(int id)
+        {
+            var product = _productRepository.GetById(id);
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Product model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            _productRepository.Update(model);
+            return RedirectToAction("Index");
         }
         public IActionResult Delete(int id)
         {
