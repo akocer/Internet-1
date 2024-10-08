@@ -1,8 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Düzenle";
+    Layout = "_LayoutAdmin";
 }
 @model Product
-<h2>Ürün Düzenle</h2>
+@section CardHeader{
+    <span>Ürün Düzenle</span>
+}
+
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Product" asp-action="Update" method="post">

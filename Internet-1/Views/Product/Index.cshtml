@@ -1,9 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    Layout = "_LayoutAdmin";
+}
+@section CardHeader{
+    <span>Ürünler</span>
 }
 @model List<Product>
-<h2>Ürünler</h2>
-<hr />
+
 <a asp-action="Add" asp-controller="Product" class="btn btn-primary btn-sm mb-2">Ekle</a>
 
 @if (Model.Count == 0)
@@ -30,11 +32,11 @@
                 <td>
                     @if (product.IsActive)
                     {
-                        <span class="badge bg-success">Aktif</span>
+                        <span class="badge bg-success text-white">Aktif</span>
                     }
                     else
                     {
-                        <span class="badge bg-danger">Pasif</span>
+                        <span class="badge bg-danger text-white">Pasif</span>
                     }
 
 
