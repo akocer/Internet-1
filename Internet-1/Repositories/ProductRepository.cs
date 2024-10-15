@@ -1,4 +1,5 @@
-﻿using Internet_1.Models;
+﻿using AutoMapper;
+using Internet_1.Models;
 using Internet_1.ViewModels;
 
 namespace Internet_1.Repositories
@@ -6,48 +7,29 @@ namespace Internet_1.Repositories
     public class ProductRepository
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public List<ProductModel> GetList()
         {
-            var products = _context.Products.Select(x => new ProductModel()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                IsActive = x.IsActive
-            }).ToList();
-
-            return products;
+            var products = _context.Products.ToList();
+            var productModels = _mapper.Map<List<ProductModel>>(products);
+            return productModels;
         }
         public ProductModel GetById(int id)
         {
-            var product = _context.Products.Where(s => s.Id == id).Select(x => new ProductModel()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Price,
-                IsActive = x.IsActive
-            }).FirstOrDefault();
-
-            return product;
+            var product = _context.Products.Where(s => s.Id == id).FirstOrDefault();
+            var productModel = _mapper.Map<ProductModel>(product);
+            return productModel;
         }
         public void Add(ProductModel model)
         {
-            var product = new Product()
-            {
-                Name = model.Name,
-                Description = model.Description,
-                IsActive = model.IsActive,
-                Price = model.Price
-
-            };
+            var product = _mapper.Map<Product>(model);
             _context.Products.Add(product);
             _context.SaveChanges();
         }
