@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Internet_1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241008110113_mig1")]
+    [Migration("20241015122710_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -24,6 +24,46 @@ namespace Internet_1.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Internet_1.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAcive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsAcive = true,
+                            Name = "Categori 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsAcive = true,
+                            Name = "Categori 1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsAcive = true,
+                            Name = "Categori 2"
+                        });
+                });
+
             modelBuilder.Entity("Internet_1.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -31,6 +71,9 @@ namespace Internet_1.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -48,12 +91,15 @@ namespace Internet_1.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             Description = "Kalem açıklama",
                             IsActive = true,
                             Name = "Kalem",
@@ -62,6 +108,7 @@ namespace Internet_1.Migrations
                         new
                         {
                             Id = 2,
+                            CategoryId = 1,
                             Description = "Defter açıklama",
                             IsActive = true,
                             Name = "Defter",
@@ -70,6 +117,7 @@ namespace Internet_1.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 2,
                             Description = "Silgi açıklama",
                             IsActive = false,
                             Name = "Silgi",
@@ -78,6 +126,7 @@ namespace Internet_1.Migrations
                         new
                         {
                             Id = 4,
+                            CategoryId = 2,
                             Description = "Kitap açıklama",
                             IsActive = false,
                             Name = "Kitap",
@@ -86,11 +135,23 @@ namespace Internet_1.Migrations
                         new
                         {
                             Id = 5,
+                            CategoryId = 3,
                             Description = "Boya açıklama",
                             IsActive = false,
                             Name = "Boya",
                             Price = 25m
                         });
+                });
+
+            modelBuilder.Entity("Internet_1.Models.Product", b =>
+                {
+                    b.HasOne("Internet_1.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
