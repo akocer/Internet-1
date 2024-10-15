@@ -1,5 +1,6 @@
 ﻿using Internet_1.Models;
 using Internet_1.Repositories;
+using Internet_1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Internet_1.Controllers
@@ -24,7 +25,7 @@ namespace Internet_1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Product model)
+        public IActionResult Add(ProductModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -40,7 +41,7 @@ namespace Internet_1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(Product model)
+        public IActionResult Update(ProductModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +57,7 @@ namespace Internet_1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Product model)
+        public IActionResult Delete(ProductModel model)
         {
 
             _productRepository.Delete(model.Id);
