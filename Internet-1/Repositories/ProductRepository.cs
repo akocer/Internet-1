@@ -42,6 +42,7 @@ namespace Internet_1.Repositories
                 product.Description = model.Description;
                 product.Price = model.Price;
                 product.IsActive = model.IsActive;
+                product.CategoryId = model.CategoryId;
 
                 _context.Products.Update(product);
                 _context.SaveChanges();

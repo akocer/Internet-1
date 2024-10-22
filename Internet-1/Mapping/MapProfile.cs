@@ -9,6 +9,7 @@ namespace Internet_1.Mapping
         public MapProfile()
         {
             CreateMap<Product, ProductModel>().ReverseMap();
+            CreateMap<Category, CategoryModel>().ReverseMap();
         }
     }
 }

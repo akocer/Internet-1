@@ -11,9 +11,9 @@ namespace Internet_1.Models
 
 
             modelBuilder.Entity<Category>().HasData(
-                new Category() { Id = 1, Name = "Categori 1", IsAcive = true },
-                new Category() { Id = 2, Name = "Categori 1", IsAcive = true },
-                new Category() { Id = 3, Name = "Categori 2", IsAcive = true }
+                new Category() { Id = 1, Name = "Categori 1", IsActive = true },
+                new Category() { Id = 2, Name = "Categori 1", IsActive = true },
+                new Category() { Id = 3, Name = "Categori 2", IsActive = true }
 );
 
 

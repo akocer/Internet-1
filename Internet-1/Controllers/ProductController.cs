@@ -2,16 +2,19 @@
 using Internet_1.Repositories;
 using Internet_1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Internet_1.Controllers
 {
     public class ProductController : Controller
     {
         private readonly ProductRepository _productRepository;
+        private readonly CategoryRepository _categoryRepository;
 
-        public ProductController(ProductRepository productRepository)
+        public ProductController(ProductRepository productRepository, CategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
@@ -21,6 +24,12 @@ namespace Internet_1.Controllers
         }
         public IActionResult Add()
         {
+            var categories = _categoryRepository.GetList().Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            ViewBag.Categories = categories;
             return View();
         }
 
@@ -36,6 +45,13 @@ namespace Internet_1.Controllers
         }
         public IActionResult Update(int id)
         {
+
+            var categories = _categoryRepository.GetList().Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+            ViewBag.Categories = categories;
             var product = _productRepository.GetById(id);
             return View(product);
         }
