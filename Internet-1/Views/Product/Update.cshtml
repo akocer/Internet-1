@@ -1,8 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Düzenle";
+    Layout = "_LayoutAdmin";
 }
-@model Product
-<h2>Ürün Düzenle</h2>
+@model ProductModel
+@section CardHeader{
+    <span>Ürün Düzenle</span>
+}
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-controller="Product" asp-action="Update" method="post">
@@ -16,6 +20,12 @@
                 <label asp-for="Price"></label>
                 <input asp-for="Price" class="form-control" />
                 <span class="text-danger" asp-validation-for="Price"></span>
+            </div>
+            <div class="mb-2">
+                <label asp-for="CategoryId"> </label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.Categories">
+                    <option value="">Seçiniz</option>
+                </select>
             </div>
             <div class="mb-2">
                 <label asp-for="Description"></label>
