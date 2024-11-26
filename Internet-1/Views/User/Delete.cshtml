@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model UserModel
+
+@section CardHeader{
+    <span>Üye Sil</span>
+}
+<form method="post" asp-action="Delete">
+    <h5>@Model.FullName isimli üye silinecektir Onaylıyor musunuz?</h5>
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+        <input type="submit" value="Üye Sil" class="btn btn-sm btn-danger" />
+        <a asp-action="Index" class="btn btn-sm btn-secondary">Vazgeç</a>
+    </div>
+</form>
+

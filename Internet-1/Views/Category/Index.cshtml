@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+@model List<CategoryModel>
+
+@section CardHeader{
+    <span>Kategoriler</span>
+}
+
+<a asp-action="Add" asp-controller="Category" class="btn btn-primary btn-sm mb-2">Ekle</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Adı</th>
+            <th>Durumu</th>
+            <th>Eklenme</th>
+            <th>Güncellenme</th>
+            <th>Düzenle - Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge bg-success text-white">Aktif</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger text-white">Pasif</span>
+                    }
+                </td>
+                <td>@item.Created</td>
+                <td>@item.Updated</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
