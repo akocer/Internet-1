@@ -1,9 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Delete";
+    Layout = "_LayoutAdmin";
 }
-@model Product
-<h2>Ürün Sil</h2>
-<hr />
+@section CardHeader{
+    <span>Ürün Sil</span>
+}
+@model ProductModel
+
 <h4>@Model.Name adlı ürün silinecektir, Onaylıyor musunuz?</h4>
 
 <form method="post" asp-action="Delete">

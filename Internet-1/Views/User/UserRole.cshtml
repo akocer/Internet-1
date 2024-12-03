@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Role";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section CardHeader {
+    <span>Üye Yetkileri</span>
+}
+@model List<UserRoleModel>
+
+<div class="row">
+    <div class="col-md-6">
+        <h5> Mevcut Yetkiler</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Yetki Adı</td>
+                    <td>Sil</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.IsInRole)
+                    {
+                        <tr>
+                            <td>@item.RoleName</td>
+                            <td>
+
+                                <a asp-action="UserRoleDelete" class="btn btn-danger btn-sm" asp-route-id="@item.RoleId" asp-route-userId="@item.UserId">Yetki Sil</a>
+
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h5>Yetki Ekle</h5>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Yetki Adı</td>
+                    <td>Ekle</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (!item.IsInRole)
+                    {
+                        <tr>
+                            <td>@item.RoleName</td>
+                            <td>
+
+
+                                <a asp-action="UserRoleAdd" class="btn btn-primary btn-sm" asp-route-id="@item.RoleId" asp-route-userId="@item.UserId">Yetki Ekle</a>
+
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

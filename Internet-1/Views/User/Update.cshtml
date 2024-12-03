@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model UserModel
+
+@section CardHeader{
+    <span>Üye Düzenle</span>
+}
+<div class="row">
+    <div class="col-md-6">
+
+
+        <form method="post" asp-action="Update" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName" class="form-control" />
+                <input asp-for="Id" type="hidden" />
+                <span class="text-danger" asp-validation-for="FullName"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="UserName"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <input type="submit" value="Kaydet" class="btn btn-sm btn-primary" />
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

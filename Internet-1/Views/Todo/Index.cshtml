@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section CardHeader{
+    <span>Yapılacaklar</span>
+}
+<div class="row">
+    <div class="col-md-8">
+        <table class="table" id="tbTodos">
+            <thead>
+                <tr>
+                    <th>Başlık</th>
+                    <th>Açıklama</th>
+                    <th>Durumu</th>
+                    <th>Düzenle</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h5 id="editTitle">Yeni Kayıt</h5>
+        <div class="mb-3">
+            <label>Başlık</label>
+            <input type="text" class="form-control" id="txtTitle" />
+            <input type="hidden" id="txtId" />
+        </div>
+        <div class="mb-3">
+            <label>Açıklama</label>
+            <textarea rows="3" class="form-control" id="txtDescription"></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Durumu</label>
+            <select class="form-control" id="cbIsOK">
+                <option value="0">Bekliyor</option>
+                <option value="1">Tamamlandı</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary btn-sm" id="btnSave">Kaydet</button>
+            <button class="btn btn-secondary btn-sm" id="btnCancel">Vazgeç</button>
+            <button class="btn btn-danger btn-sm" id="btnDelete">Sil</button>
+
+        </div>
+
+        <div id="divResult"></div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script>
+        GetTodoList();
+        $("#btnCancel").hide();
+        $("#btnDelete").hide();
+        $("#txtId").val(0);
+
+        $("#btnSave").click(function () {
+            id = $("#txtId").val();
+            title = $("#txtTitle").val();
+            description = $("#txtDescription").val();
+            isOK = $("#cbIsOK").val();
+            var todo = new Object();
+            todo.Id = id;
+            todo.Title = title;
+            todo.Description = description;
+            todo.IsOK = isOK;
+            $.ajax({
+                url: "/Todo/AddUpdateAjax",
+                type: "POST",
+                data: todo,
+                success: function (d) {
+                    if (d.status) {
+                        GetTodoList();
+                        $("#btnCancel").click();
+                        $("#divResult")
+                            .show()
+                            .removeClass()
+                            .addClass("alert alert-success")
+                            .html(d.message)
+                            .fadeOut(3000);
+                    } else {
+                        $("#divResult")
+                            .show()
+                            .removeClass()
+                            .addClass("alert alert-danger")
+                            .html(d.message)
+                            .fadeOut(3000);
+                    }
+                },
+                error: function (e) { },
+            });
+
+        });
+
+        $(document).on("click", ".edit", function () {
+            var id = $(this).attr("data-id");
+            $("#editTitle").html("Kayıt Düzenle");
+            $("#btnCancel").show();
+            $("#btnDelete").show();
+            $.ajax({
+                url: "/Todo/GetByIdAjax/" + id,
+                type: "GET",
+                success: function (d) {
+                    $("#txtId").val(id);
+                    $("#txtTitle").val(d.title);
+                    $("#txtDescription").val(d.description);
+                    $("#cbIsOK").val(d.isOK);
+
+
+
+                },
+                error: function (e) { },
+            });
+        });
+
+        $("#btnCancel").click(function () {
+            $("#editTitle").html("Yeni Kayıt");
+            $("#btnCancel").hide();
+            $("#btnDelete").hide();
+            $("#txtId").val(0);
+            $("#txtTitle").val("");
+            $("#txtDescription").val("");
+            $("#cbIsOK").val(0);
+
+        });
+        $("#btnDelete").click(function () {
+            var id = $("#txtId").val();
+            $.ajax({
+                url: "/Todo/DeleteAjax/" + id,
+                type: "GET",
+                success: function (d) {
+                    if (d.status) {
+                        GetTodoList();
+                        $("#btnCancel").click();
+                        $("#divResult")
+                            .show()
+                            .removeClass()
+                            .addClass("alert alert-success")
+                            .html(d.message)
+                            .fadeOut(3000);
+                    } else {
+                        $("#divResult")
+                            .show()
+                            .removeClass()
+                            .addClass("alert alert-danger")
+                            .html(d.message)
+                            .fadeOut(3000);
+                    }
+                },
+                error: function (e) { },
+            });
+        });
+
+
+        function GetTodoList() {
+            $.ajax({
+                url: "/Todo/ListAjax",
+                type: "GET",
+                success: function (d) {
+                    TodoToTable(d)
+                },
+                error: function (e) { },
+            });
+        }
+        function TodoToTable(data) {
+            $("#tbTodos tbody").empty();
+            var rows = "";
+            $.each(data, function (i, item) {
+                rows += "<tr>";
+                rows += "<td>" + item.title + "</td>";
+                rows += "<td>" + item.description + "</td>";
+                if (item.isOK == 1) {
+                    rows += "<td><span class='badge bg-success text-white'>Tamamlandı</span></td>";
+                } else {
+                    rows += "<td><span class='badge bg-danger text-white'>Bekliyor</span></td>";
+                }
+                rows += "<td><button class='btn btn-primary btn-sm edit' data-id='" + item.id + "'>Düzenle</button></td>";
+                rows += "</tr>";
+            });
+            $("#tbTodos tbody").append(rows);
+        }
+
+
+    </script>
+}
