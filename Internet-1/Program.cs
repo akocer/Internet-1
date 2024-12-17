@@ -1,5 +1,6 @@
 using AspNetCoreHero.ToastNotification;
 using AutoMapper;
+using Internet_1.Hubs;
 using Internet_1.Localisation;
 using Internet_1.Models;
 using Internet_1.Repositories;
@@ -63,7 +64,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 });
 
-
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -85,5 +86,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapHub<GeneralHub>("/general-hub");
 app.Run();
